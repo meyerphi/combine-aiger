@@ -1,6 +1,6 @@
 default: combine-aiger
 
-OBJECTS = main.o combine.o aiger.o
+OBJECTS = main.o combine.o aiger.o moore.o
 CFLAGS = -std=c11 -Wall -Wshadow -pedantic
 
 %.o: %.c %.h
