@@ -19,13 +19,13 @@ static bool names_do_match(const char* monitor_input, const char* impl_output) {
     const unsigned monitor_input_len = strlen(monitor_input);
     const unsigned impl_output_len = strlen(impl_output);
     const unsigned prefix_len = strlen("AIGER_NEXT_");
-    
+
     if (strncmp(monitor_input, "AIGER_NEXT_", prefix_len) != 0) {
         // special case if input is not contained in LTL formula
         return strcmp(monitor_input, impl_output) == 0;
     }
     assert(monitor_input_len > prefix_len);
-    
+
     if (prefix_len + impl_output_len > monitor_input_len) {
         return false;
     }
@@ -159,8 +159,8 @@ static void add_latches_from_implementation(aiger* combination, const aiger* imp
         latch.lit = translate_literal(implementation, latch.lit, offset);
         latch.next = translate_literal(implementation, latch.next, offset);
         aiger_add_latch(combination, latch.lit, latch.next, latch.name);
-	// copy reset value if present
-	aiger_add_reset(combination, latch.lit, latch.reset);
+        // copy reset value if present
+        aiger_add_reset(combination, latch.lit, latch.reset);
     }
 }
 
@@ -200,16 +200,16 @@ aiger* combine(const aiger* monitor, const aiger* implementation) {
     if (combination == NULL) {
         return NULL;
     }
-    
+
     const unsigned offset = monitor->maxvar + 1;
-    
+
     check_signals_defined(monitor, implementation);
     add_inputs_from_monitor(combination, monitor, implementation);
     add_latches_from_monitor(combination, monitor, implementation);
     assert(monitor->num_outputs == 0);
     add_constraints_from_monitor(combination, monitor, implementation);
     import_ands_from_monitor(combination, monitor);
-    
+
     add_latches_from_implementation(combination, implementation, offset);
     import_ands_from_implementation(combination, implementation, offset);
     define_outputs(combination, monitor, implementation, offset);
